@@ -1,0 +1,24 @@
+{
+  "name": "rossmannprices",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "tailwind": "npx tailwindcss -i ./static/src/input.css -o ./static/styles/style.css --watch",
+    "prettier": "npx prettier --write **/*.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ryszard-S/rossmannPrices.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ryszard-S/rossmannPrices/issues"
+  },
+  "homepage": "https://github.com/Ryszard-S/rossmannPrices#readme",
+  "devDependencies": {
+    "prettier-plugin-tailwindcss": "^0.1.13"
+  }
+}

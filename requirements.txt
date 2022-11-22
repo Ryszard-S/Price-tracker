@@ -7,3 +7,4 @@ python-dotenv==0.21.0
 sqlparse==0.4.3
 tomli==2.0.1
 tzdata==2022.6
+whitenoise==6.2.0

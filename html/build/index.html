@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lobster+Two:ital,wght@1,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen bg-beige text-graphite">
+    <header>
+      <section class="mx-auto flex items-center justify-between p-4">
+        <h1 class="font-['Lobster_Two'] text-3xl font-medium text-red">
+          💸 Price traker
+        </h1>
+        <div>
+          <button
+            id="mobile-open-button"
+            class="text-3xl focus:outline-none sm:hidden"
+          >
+            &#9776;
+          </button>
+          <nav class="hidden space-x-8 text-xl sm:block" aria-label="main">
+            <a href="#rockets" class="hover:opacity-70">Our Rockets</a>
+            <a href="#testimonials" class="hover:opacity-90">Testimonials</a>
+            <a href="#contact" class="hover:opacity-90">Contact Us</a>
+          </nav>
+        </div>
+      </section>
+    </header>
+    <form>
+      <label
+        for="default-search"
+        class="sr-only mb-2 text-sm font-medium text-graphite"
+        >Search</label
+      >
+      <div class="relative">
+        <div
+          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+        >
+          <svg
+            aria-hidden="true"
+            class="h-5 w-5 text-graphite"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+        </div>
+        <input
+          type="search"
+          id="default-search"
+          class="block w-full rounded-lg border border-graphite bg-white bg-opacity-40 p-3 pl-10 text-lg text-graphite hover:ring hover:ring-graphite focus:outline-none focus:ring focus:ring-red"
+          placeholder="Search products"
+          required
+        />
+        <button
+          type="submit"
+          class="absolute right-2.5 bottom-2.5 rounded-lg bg-graphite px-4 py-2 text-sm font-medium text-beige hover:bg-red focus:outline-none focus:ring-4 focus:ring-graphite"
+        >
+          Search
+        </button>
+      </div>
+    </form>
+    <main>
+      <section class="py-20 text-graphite">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-evenly">
+            <p>Marka</p>
+            <p>Nazwa</p>
+            <p>Sklep</p>
+            <p>Kategoria</p>
+          </div>
+          <hr class="border-graphite" />
+          <div class="mt-10">
+            <ul role="list" class="grid grid-cols-1 gap-10">
+              <li
+                class="border-spacing-11 rounded-3xl border-2 border-graphite p-6 hover:border-red"
+              >
+                <div class="flex justify-evenly">
+                  <p>Marka</p>
+                  <p>Nazwa</p>
+                  <p>Sklep</p>
+                  <p>Kategoria</p>
+                </div>
+              </li>
+              <li
+                class="border-spacing-11 rounded-3xl border-2 border-graphite p-6"
+              >
+                <div class="flex justify-evenly">
+                  <p>Marka</p>
+                  <p>Nazwa</p>
+                  <p>Sklep</p>
+                  <p>Kategoria</p>
+                </div>
+              </li>
+              <li
+                class="border-spacing-11 rounded-3xl border-2 border-graphite p-6"
+              >
+                <div class="flex justify-evenly">
+                  <p>Marka</p>
+                  <p>Nazwa</p>
+                  <p>Sklep</p>
+                  <p>Kategoria</p>
+                </div>
+              </li>
+              <li
+                class="border-spacing-11 rounded-3xl border-2 border-graphite p-6"
+              >
+                <div class="flex justify-evenly">
+                  <p>Marka</p>
+                  <p>Nazwa</p>
+                  <p>Sklep</p>
+                  <p>Kategoria</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <nav class="mt-10 w-full" aria-label="Page navigation">
+          <ul
+            class="inline-flex w-full items-center justify-center -space-x-px"
+          >
+            <li>
+              <a
+                href="#"
+                class="ml-0 block rounded-l-lg border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+              >
+                <span class="sr-only">Previous</span>
+                <svg
+                  aria-hidden="true"
+                  class="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                >1</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                >2</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                aria-current="page"
+                class="z-10 border bg-red px-3 py-2 leading-tight text-graphite"
+              >
+                3</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                >4</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                >5</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="block rounded-r-lg border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+              >
+                <span class="sr-only">Next</span>
+                <svg
+                  aria-hidden="true"
+                  class="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </section>
+    </main>
+
+    <footer
+      class="rounded-lg bg-beige p-1 shadow md:flex md:items-center md:justify-between"
+    >
+      <span class="text-sm text-gray-500"> © 2022. </span>
+      <ul
+        class="mt-3 flex flex-wrap items-center text-sm text-gray-500 sm:mt-0"
+      >
+        <li>
+          <a href="#" class="mr-4 hover:underline md:mr-6">About</a>
+        </li>
+        <li>
+          <a href="#" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+        </li>
+        <li>
+          <a href="#" class="mr-4 hover:underline md:mr-6">Licensing</a>
+        </li>
+        <li>
+          <a href="#" class="hover:underline">Contact</a>
+        </li>
+      </ul>
+    </footer>
+  </body>
+</html>

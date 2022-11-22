@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
+
+<p class="text-2xl">{{ product.brand_id.brand_name }} </p>
+
+<p class="text-xl">{{ product.product_name }}</p>
+
+<canvas id="myChart" class="aspect-video my-10"></canvas>
+
+<div class="rounded-xl border border-graphite ">
+    <table class="table-fixed w-full text-sm">
+        <thead class="border-b border-graphite">
+        <tr>
+            <th>Date</th>
+            <th>Regular price</th>
+            <th>Promo price</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for price in product.price_set.all %}
+        <tr>
+            <td class="text-center">{{ price.date | date }}</td>
+            <td class="text-center">{{ price.price }}</td>
+            <td class="text-center">{{ price.price_promo }}</td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+</div>
+
+
+<script defer>
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [{% for price in product.price_set.all %}'{{price.date}}',{% endfor %}], //loop through queryset,
+                datasets: [{
+                    label: 'price',
+                    data: [{% for price in product.price_set.all %}'{{price.price}}',{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                    ],
+                    borderWidth: 3
+                },
+                {
+                    label: 'price_promo',
+                    data: [{% for price in product.price_set.all %}
+                    {% if price.price_promo %}
+                    '{{price.price_promo}}',
+                    {% else %}
+                    '{{price.price}}',
+                    
+                    {% endif %}
+                    {% endfor %}],
+                    backgroundColor: [
+                        'rgba(100, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(100, 99, 132, 1)',
+                    ],
+                    borderWidth: 3
+                
+                }]
+
+            },
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+{% endblock %}
