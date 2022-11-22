@@ -1,7 +1,7 @@
 .idea
 /venv
 .env
-pip install whitenoise__pycache__
+__pycache__
 node_modules
 
 # generate gitignore for python
