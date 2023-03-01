@@ -109,4 +109,4 @@ if __name__ == '__main__':
     # Product.objects.all().delete()
     # Price.objects.all().delete()
     add_rossmann_products()
-    print('hello')
+    print('end')
