@@ -21,7 +21,6 @@ class SearchListView(ListView):
     #     print(request)
 
     def get_queryset(self):
-        print(self.request.GET)
         q = self.request.GET.get('q', None)
         return Product.objects.filter(Q(product_name__icontains=q) | Q(brand_id__brand_name__icontains=q))
 

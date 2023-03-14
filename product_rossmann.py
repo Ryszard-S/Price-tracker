@@ -1,24 +1,15 @@
-import json
-
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from dotenv import load_dotenv
 
 load_dotenv()
-
-from django.conf import settings
-import os
-import django
-from pathlib import Path
-import dj_database_url
 import requests
+import django
 
 django.setup()
-
-# print(dj_database_url.parse(os.environ.get( 'DATABASE_URL')))
-# settings.configure(dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600))
-#
-#
+import logging
 from prices.models import *
 
+logging.basicConfig(filename='app.log', level=logging.DEBUG, format='%(asctime)s\t%(levelname)s\t%(message)s')
 shop = Shop.objects.get(name='ROSSMANN')
 
 
@@ -41,16 +32,66 @@ def add_rossmann_brands():
 
 
 def add_rossmann_categories():
-    # with open('response_categories.json', 'r', encoding="utf-8") as f:
-    #     categories_json = json.load(f)
-
-    # categories_row = categories_json['data']
     req = requests.get('https://www.rossmann.pl/products/api/Categories')
     categories_json = req.json()
     for i in categories_json['data']:
         for j in i['children']:
             for k in j['children']:
                 Category.objects.create(shop_category_id=k['id'], category_name=k['name'], shop_id=shop)
+
+
+def update_rossmann_products():
+    page_end = requests.get(
+        'https://www.rossmann.pl/marketing/api/Catalog?Page=1&PageSize=100&SortOrder=priceAsc').json()['data'][
+        'totalPages']
+
+    print(page_end, page_end + 1)
+    pages = range(1, page_end + 1)
+    for page in pages:
+        req = requests.get(f'https://www.rossmann.pl/marketing/api/Catalog?Page={page}&PageSize=100&SortOrder=priceAsc')
+        items = req.json()['data']['items']
+        print(page, req.status_code)
+
+        for item in items:
+            item = item['product']
+            shop_product_id = item['id']
+            ean = item.get('eanNumber', None)
+            photo_url = item.get('pictures', None)[0].get('medium', None)
+            print(ean, photo_url)
+            if not ean or not photo_url:
+                logging.info(f'shop product id: {shop_product_id}\tean: {ean}\turl: {photo_url}')
+
+            try:
+                product = Product.objects.get(shop_product_id=shop_product_id, shop_id=shop)
+                product.ean = ean
+                product.photo_url = photo_url
+                product.save()
+            except ObjectDoesNotExist:
+                logging.warning(f'shop product id: {shop_product_id} does not exist in db')
+            except MultipleObjectsReturned:
+                logging.warning(f'MULTIPLE shop product id: {shop_product_id}')
+
+
+def reduce_prices_for_same_products():
+    remove_id = set()
+    with open('todelete.txt', 'r') as f:
+        x = f.readlines()
+        for i in x:
+            z = int(i.rstrip('\n'))
+            remove_id.add(z)
+
+    for item_id in sorted(remove_id):
+        print(item_id)
+        products = list(Product.objects.filter(shop_product_id=item_id, shop_id=shop))
+        last_product = products[-1]
+        for item in products[:-1]:
+            print(item.id)
+            prices = Price.objects.filter(product_id=item.id)
+            for price in prices:
+                price.product_id = last_product
+                price.save()
+            item.delete()
+        print('next')
 
 
 def add_rossmann_products():
@@ -108,5 +149,7 @@ def add_rossmann_products():
 if __name__ == '__main__':
     # Product.objects.all().delete()
     # Price.objects.all().delete()
-    add_rossmann_products()
+    # add_rossmann_products()
+    update_rossmann_products()
+    # reduce_prices_for_same_products()
     print('end')

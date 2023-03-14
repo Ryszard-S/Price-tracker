@@ -1,4 +1,5 @@
 import requests
+from django.core.exceptions import ObjectDoesNotExist
 from dotenv import load_dotenv
 import django
 import os
@@ -50,7 +51,7 @@ def get_categories():
 
 
 def add_products():
-    categories = Category.objects.filter(shop_id=shop, id__gt=989)
+    categories = Category.objects.filter(shop_id=shop)
     for category in categories:
         cat = category.shop_category_id
         req = requests.get(
@@ -66,29 +67,33 @@ def add_products():
             print('status req1 ', req1.status_code)
             req1 = req1.json().get('Items')
             for item in req1:
-                print(item)
-
-                if brand_name := item.get('Producer').get('Name', 'brak nazwy'):
-                    brand_name = brand_name
-                else:
-                    brand_name = 'brak nazwy'
-
+                # print(item)
+                brand_name = item.get('Producer').get('Name', 'brak nazwy')
                 brand_id, created = ProductBrand.objects.get_or_create(shop_id=shop,
                                                                        brand_name=brand_name,
                                                                        shop_product_brand_id=int(
                                                                            item.get('Producer').get('Id')))
 
                 # print(item)
-                print(type(item))
-                print(type(int(item['Id'])))
-                print(brand_id)
+                # print(type(item))
+                # print(type(int(item['Id'])))
+                # print(brand_id)
                 shop_product_id = int(item.get('Id'))
                 product_name = item.get('Name')
-                product, created = Product.objects.get_or_create(shop_product_id=shop_product_id,
-                                                                 product_name=product_name,
-                                                                 shop_id=shop,
-                                                                 category_id=category,
-                                                                 brand_id=brand_id)
+                # product, created = Product.objects.get_or_create(shop_product_id=shop_product_id,
+                #                                                  product_name=product_name,
+                #                                                  shop_id=shop,
+                #                                                  category_id=category,
+                #                                                  brand_id=brand_id)
+
+                try:
+                    product = Product.objects.get(shop_id=shop, shop_product_id=shop_product_id)
+                except ObjectDoesNotExist:
+                    product = Product.objects.create(shop_product_id=shop_product_id,
+                                                     product_name=product_name,
+                                                     shop_id=shop,
+                                                     category_id=category,
+                                                     brand_id=brand_id)
 
                 price = item['Price']
                 old_price = item.get('OldPrice')

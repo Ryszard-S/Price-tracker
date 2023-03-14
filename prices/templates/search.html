@@ -1,72 +1,67 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-  <div class="flex justify-evenly">
-    <p>Marka</p>
-    <p>Nazwa</p>
-    <p>Sklep</p>
-    <p>Kategoria</p>
-  </div>
-  <hr class="border-graphite" />
-  <div class="mt-10">
-    <ul role="list" class="grid grid-cols-1 gap-10">
-      {% for product in products %}
-      <a href="/product/{{product.id}}">
-        <li
-          class="border-spacing-11 rounded-3xl border-2 border-graphite p-6 hover:border-red"
-        >
-          <div class="flex flex-wrap justify-evenly">
-            <p class="m-1">{{ product.brand_id.brand_name }}</p>
-            <p class="m-1">{{ product.product_name }}</p>
-            <p class="m-1">{{ product.shop_id.name }}</p>
-            <p class="m-1">{{ product.category_id.category_name }}</p>
-          </div>
-        </li>
-      </a>
-      {% endfor %}
-    </ul>
-  </div>
+    <div class="flex justify-evenly">
+        <p>Photo</p>
+        <p>Brand</p>
+        <p>Name</p>
+        <p>Shop</p>
+        <p>Category</p>
+    </div>
+    <hr class="border-graphite"/>
+    <div class="mt-10">
+        <ul class="grid grid-cols-1 gap-10">
+            {% for product in products %}
+            <a href="/product/{{product.id}}">
+                <li class="border-spacing-11 grid rounded-3xl border-2 border-graphite p-6 py-8 hover:border-red sm:grid-cols-4">
+                    <div class="mb-4 h-48 sm:mb-0">
+                        {% if product.photo_url %}
+                        <img loading="lazy" class="mx-auto h-full" src="https:{{ product.photo_url }}"/>
+                        {% else %}
+                        <img class="mx-auto h-full"
+                             src="https://cdn.jsdelivr.net/npm/openmoji@14.0.0/color/svg/E142.svg"/>
+                        {% endif %}
+                    </div>
+                    <div class="sm:col-span-3 lg:col-span-2">
+                        <p class="m-1 text-base font-bold sm:text-xl">
+                            {{ product.brand_id.brand_name }} {{ product.product_name }}
+                        </p>
+                        <p class="m-1"></p>
+                        <p class="m-1">{{ product.shop_id.name }}</p>
+                        <p class="m-1">{{ product.category_id.category_name }}</p>
+                    </div>
+                </li>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 
 <nav class="mt-10 w-full" aria-label="Page navigation">
-  <ul class="inline-flex w-full items-center justify-center -space-x-px">
-    {% if page_obj.has_previous %}
-    <li
-      class="ml-0 block rounded-l-lg border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-    >
-      <a href="?q={{ request.GET.q }}&page=1">&laquo; first</a>
-    </li>
-    <li
-      class="border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-    >
-      <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}"
-        >previous</a
-      >
-    </li>
-    {% endif %}
-    <li>
+    <ul class="inline-flex w-full items-center justify-center -space-x-px">
+        {% if page_obj.has_previous %}
+        <li class="ml-0 block rounded-l-lg border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+            <a href="?q={{ request.GET.q }}&page=1">&laquo; first</a>
+        </li>
+        <li class="border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+            <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">previous</a>
+        </li>
+        {% endif %}
+        <li>
       <span class="current">
         Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
       </span>
-    </li>
+        </li>
 
-    {% if page_obj.has_next %}
-    <li
-      class="border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-    >
-      <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}"
-        >next</a
-      >
-    </li>
-    <li
-      class="block rounded-r-lg border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-    >
-      <a href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}"
-        >last &raquo;</a
-      >
-    </li>
-    {% endif %}
-  </ul>
+        {% if page_obj.has_next %}
+        <li class="border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+            <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">next</a>
+        </li>
+        <li class="block rounded-r-lg border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+            <a href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
 </nav>
 
 {% endblock %}

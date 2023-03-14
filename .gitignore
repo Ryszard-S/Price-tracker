@@ -3,6 +3,7 @@
 .env
 __pycache__
 node_modules
+app.log
 
 # generate gitignore for python
 
