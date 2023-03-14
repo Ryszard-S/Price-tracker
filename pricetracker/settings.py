@@ -28,8 +28,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DEBUG')))
+print("DEBUG: ", DEBUG)
 
-ALLOWED_HOSTS = ['price-tracker-76kz.onrender.com', '127.0.0.1']
+ALLOWED_HOSTS = ['price-tracker-76kz.onrender.com', ]
+if DEBUG:
+    ALLOWED_HOSTS += ['127.0.0.1']
 
 # Application definition
 
