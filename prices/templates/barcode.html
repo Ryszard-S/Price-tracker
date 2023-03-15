@@ -1,27 +1,21 @@
-{% extends 'base.html' %}
-
-{% block title %}
+{% extends 'base.html' %} {% load static %} {% block title %}
 <title>📸 scan barcode</title>
-{% endblock %}
-
-
-{% block content %}
-
-<script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
-
-<div id="qr-reader" style="width: 600px"></div>
-
-<script defer>
-    function onScanSuccess(decodedText, decodedResult) {
-    console.log(`Code scanned = ${decodedText}`, decodedResult);
-    window.location.href=`/search/?ean=${decodedText}`;
-}
-var html5QrcodeScanner = new Html5QrcodeScanner(
-	"qr-reader", { fps: 10, qrbox: 250 });
-html5QrcodeScanner.render(onScanSuccess);
-
-
-
-</script>
-
+<link rel="stylesheet" href="{% static 'styles/barcode.css' %}"/>
+{% endblock %} {% block content %}
+<script src="https://unpkg.com/html5-qrcode"></script>
+<div id="qr-reader"></div>
+<form class="mt-2" method="get" action="/search/">
+    <div class="relative">
+        <input placeholder="ean barcode"
+               name="ean"
+               type="number"
+               class="block w-full rounded-lg border border-graphite bg-white bg-opacity-40 p-3 pl-10 text-lg text-graphite hover:ring hover:ring-graphite focus:outline-none focus:ring focus:ring-red"
+        >
+        <button type="submit"
+                class="absolute right-2.5 bottom-2.5 rounded-lg bg-graphite px-4 py-2 text-sm font-medium text-beige hover:bg-red focus:outline-none focus:ring-4 focus:ring-graphite">
+            Search
+        </button>
+    </div>
+</form>
+<script defer src="{% static 'js/barcode.js' %}"></script>
 {% endblock %}

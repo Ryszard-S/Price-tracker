@@ -1,0 +1,30 @@
+#html5-qrcode-button-camera-permission {
+  background-color: rgb(187, 187, 1);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.5rem;
+}
+
+#html5-qrcode-button-camera-stop {
+  background-color: rgb(179, 0, 0);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.5rem;
+}
+
+#html5-qrcode-button-camera-start {
+  background-color: green;
+  color: antiquewhite;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.5rem;
+}
+#qr-reader__dashboard_section_csr {
+  margin-bottom: 1rem;
+}
