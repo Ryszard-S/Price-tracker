@@ -113,8 +113,6 @@ def add_rossmann_products():
             category = i['category'].split('-')[-1]
             print(category)
 
-            product_name = i['caption'] + " " + i.get('name', '')
-            shop_product_id = i['id']
             # product_name = i['name']
             shop_id = shop
             try:
@@ -128,12 +126,20 @@ def add_rossmann_products():
                 brand_id = ProductBrand.objects.create(shop_id=shop, shop_product_brand_id=i['brandId'],
                                                        brand_name=i['brand'])
 
+            product_name = i['caption'] + " " + i.get('name', '')
+            shop_product_id = i['id']
+            ean = i.get('eanNumber', None)
+            photo_url = i.get('pictures', None)[0].get('medium', None)
+
             try:
-                product = Product.objects.get(shop_product_id=shop_product_id, product_name=product_name,
-                                              shop_id=shop_id, category_id=category_id, brand_id=brand_id)
-            except:
+                product = Product.objects.get(shop_product_id=shop_product_id, shop_id=shop_id)
+            except ObjectDoesNotExist:
                 product = Product.objects.create(shop_product_id=shop_product_id, product_name=product_name,
-                                                 shop_id=shop_id, category_id=category_id, brand_id=brand_id)
+                                                 shop_id=shop_id, category_id=category_id, brand_id=brand_id, ean=ean,
+                                                 photo_url=photo_url)
+                logging.info(f'Product Created {shop_product_id}')
+            except MultipleObjectsReturned:
+                logging.warning(f'MULTIPLE shop product id: {shop_product_id}')
 
             price = i.get('price')
             old_price = i.get('oldPrice', None)
@@ -149,7 +155,7 @@ def add_rossmann_products():
 if __name__ == '__main__':
     # Product.objects.all().delete()
     # Price.objects.all().delete()
-    # add_rossmann_products()
-    update_rossmann_products()
+    add_rossmann_products()
+    # update_rossmann_products()
     # reduce_prices_for_same_products()
     print('end')

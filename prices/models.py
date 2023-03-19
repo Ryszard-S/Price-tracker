@@ -22,7 +22,7 @@ class Category(models.Model):
 
 
 class ProductBrand(models.Model):
-    shop_product_brand_id = models.IntegerField(null=True, blank=True)  # id which is given by shop api
+    shop_product_brand_id = models.CharField(max_length=30, null=True, blank=True)  # id which is given by shop api
     brand_name = models.CharField(max_length=100)
     shop_id = models.ForeignKey(Shop, on_delete=models.CASCADE)
 
@@ -31,7 +31,7 @@ class ProductBrand(models.Model):
 
 
 class Product(models.Model):
-    shop_product_id = models.IntegerField(null=True, blank=True)  # id which is given by shop api
+    shop_product_id = models.CharField(max_length=30, null=True, blank=True)  # id which is given by shop api
     product_name = models.CharField(max_length=300)
     shop_id = models.ForeignKey(Shop, on_delete=models.CASCADE)
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
