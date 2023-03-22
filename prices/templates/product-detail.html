@@ -8,16 +8,8 @@
 
 <p class="text-xl">{{ product.product_name }}</p>
 
-{% if product.shop_id.id == 1 %}
 <a class="text-blue-600 visited:text-purple-600" target="_blank"
-   href="https://inglot.pl/szukaj?controller=search&s={{ product.product_name }}">Link</a>
-{% elif product.shop_id.id == 2 %}
-<a class="text-blue-600 visited:text-purple-600 hover:underline" target="_blank"
-   href="https://www.x-kom.pl/szukaj?q={{ product.product_name }}">Link</a>
-{% elif product.shop_id.id == 3 %}
-<a class="text-blue-600 visited:text-purple-600" target="_blank"
-   href="https://www.rossmann.pl/szukaj?Search={{ product.product_name }}">Link</a>
-{% elif product.shop_id.id == 4 %} {% else %} {% endif %}
+   href="{{product.shop_id.search_link}}{{ product.product_name }}">Link to shop</a>
 
 <canvas id="myChart" class="my-10 aspect-video"></canvas>
 
@@ -48,7 +40,6 @@
 </div>
 
 <script defer>
-
           var ctx = document.getElementById('myChart').getContext('2d');
           var myChart = new Chart(ctx, {
               type: 'line',
@@ -81,14 +72,9 @@
                           'rgba(100, 99, 132, 1)',
                       ],
                       borderWidth: 3
-
                   }]
-
               },
-
   })
-
-
 
 </script>
 
