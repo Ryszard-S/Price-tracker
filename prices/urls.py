@@ -6,6 +6,8 @@ from .views import ProductDetailView, SearchListView
 urlpatterns = [
     path('', views.home, name="home"),
     path('barcode', views.barcode, name="barcode"),
+    path('categories', views.get_categories, name="categories"),
+    path('brands', views.get_brands, name="brands"),
     path('search/', SearchListView.as_view(), name="search"),
     path('product/<int:pk>', ProductDetailView.as_view(), name="product"),
 ]

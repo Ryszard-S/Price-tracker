@@ -1,18 +1,18 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
-
 <div class="">
-    <p>
+    <p class="text-xl">
         Sprawdź historie cen produków w wybranych sklepach. Skorzystaj z
         wyszukiwarki i zobacz jaka była najnisza cena produktu.
     </p>
 </div>
-<div class="border border-red">
-    <a href="/barcode">Scan barcode</a>
+<div class="mt-10 flex justify-center">
+    <a href="/barcode" class="">
+        <button class="rounded-full mx-auto bg-red text-beige p-2 hover:opacity-90"> Scan barcode</button>
+    </a>
 </div>
 
-
-<div class="absolute bottom-8 right-0">
+<div class="absolute bottom-8 right-0 -z-10">
     <img alt="" class="h-36" src="{% static 'icons/614311.png' %}"/>
 </div>
 

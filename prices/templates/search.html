@@ -1,8 +1,41 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}
+<title>🔎 {{ request.GET.q }}</title>
+<link async rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.11.0/tabler-icons.min.css"/>
+
+{% endblock %}
 {% block content %}
 
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <button id="search_filter" onclick="changeArrowButton()"
+            class="block ml-auto rounded-lg bg-graphite px-4 py-2 text-sm font-medium text-beige hover:bg-red focus:outline-none focus:ring-4 focus:ring-graphite">
+        Filter products
+        <i id="i_search_filter" class="ti ti-arrow-big-down"></i>
+    </button>
+    <form id="detail_search" method="get" class="hidden">
+        <input type="hidden" name="q" value="{{ request.GET.q }}"/>
+        <label for="select_shop">Shop:</label>
+        <select name="shop" id="select_shop"
+                class="bg-gray-50 border border-graphite text-graphite text-sm rounded-lg block w-full p-2.5 hover:ring hover:ring-graphite focus:outline-none focus:ring focus:ring-red">
+            <option value="">--Please choose an option--</option>
+            {% for i in shops %}
+            <option value="{{i.pk}}">{{i.name}}</option>
+            {% endfor %}
+        </select>
+        <label for="select_category">Category:</label>
+        <select disabled name="category" id="select_category"
+                class="bg-gray-50 border border-graphite text-graphite text-sm rounded-lg block w-full p-2.5 hover:ring hover:ring-graphite focus:outline-none focus:ring focus:ring-red disabled:opacity-25">
+            <option value="">--Please choose an option--</option>
+        </select>
+        <label for="select_brand">Brand:</label>
+        <select disabled name="brand" id="select_brand"
+                class="bg-gray-50 border border-graphite text-graphite text-sm rounded-lg block w-full p-2.5 hover:ring hover:ring-graphite focus:outline-none focus:ring focus:ring-red disabled:opacity-25">
+
+            <option value="">--Please choose an option--</option>
+        </select>
+        <input type="submit"/>
+    </form>
     <div class="flex justify-evenly">
         <p>Photo</p>
         <p>Brand</p>
@@ -38,9 +71,9 @@
         </ul>
 
         {% if products|length == 0 %}
-        <div class="w-1/2  mx-auto">
-            <h1 class="text-center font-extrabold text-xl">No results</h1>
-            <img class="max-h-96 mx-auto" src="{% static 'icons/Match.svg' %}"/>
+        <div class="mx-auto w-1/2">
+            <h1 class="text-center text-xl font-extrabold">No results</h1>
+            <img class="mx-auto max-h-96" src="{% static 'icons/Match.svg' %}"/>
         </div>
 
         {% endif %}
@@ -51,27 +84,36 @@
     <ul class="inline-flex w-full items-center justify-center -space-x-px">
         {% if page_obj.has_previous %}
         <li class="ml-0 block rounded-l-lg border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-            <a href="?q={{ request.GET.q }}&page=1">&laquo; first</a>
+            <a href="?q={{ request.GET.q }}&shop={{ request.GET.shop }}&category={{ request.GET.category }}&page=1">
+                &laquo;first
+            </a>
         </li>
         <li class="border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-            <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">previous</a>
+            <a href="?q={{ request.GET.q }}&shop={{ request.GET.shop }}&category={{ request.GET.category }}&page={{ page_obj.previous_page_number }}">
+                previous
+            </a>
         </li>
         {% endif %}
         <li>
-      <span class="current">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-      </span>
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
         </li>
 
         {% if page_obj.has_next %}
         <li class="border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-            <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">next</a>
+            <a href="?q={{ request.GET.q }}&shop={{ request.GET.shop }}&category={{ request.GET.category }}&page={{ page_obj.next_page_number }}">
+                next
+            </a>
         </li>
         <li class="block rounded-r-lg border border-gray-300 bg-beige px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-            <a href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            <a href="?q={{ request.GET.q }}&shop={{ request.GET.shop }}&category={{ request.GET.category }}&page={{ page_obj.paginator.num_pages }}">
+                last &raquo;
+            </a>
         </li>
         {% endif %}
     </ul>
 </nav>
+<script defer src="{% static 'js/search.js' %}"></script>
 
 {% endblock %}

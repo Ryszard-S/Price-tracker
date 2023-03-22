@@ -1,8 +1,12 @@
+import json
+
 from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
+from django.core import serializers
+from django.http import JsonResponse, HttpResponse
 
-from prices.models import Product
+from prices.models import Product, Shop, Category, ProductBrand
 
 
 # Create your views here.
@@ -14,17 +18,51 @@ def barcode(request):
     return render(request, 'barcode.html')
 
 
+def get_categories(request):
+    shop_id = request.GET.get('shop_id')
+    data = []
+    categories = Category.objects.filter(shop_id=shop_id).order_by('category_name')
+    for category in categories:
+        data.append({'id': category.pk, 'categoryName': category.category_name})
+    return JsonResponse(data, safe=False)
+
+
+def get_brands(request):
+    category_id = request.GET.get('category_id')
+    data = []
+    brands = Product.objects.filter(category_id=category_id).distinct('brand_id')
+    for brand in brands:
+        # print(brand.brand_id.brand_name)
+        data.append({'id': brand.pk, 'brandName': brand.brand_id.brand_name})
+    return JsonResponse(data, safe=False)
+
+
 class SearchListView(ListView):
     model = Product
     template_name = 'search.html'
     context_object_name = 'products'
     paginate_by = 20
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shops'] = Shop.objects.all()
+        # context['query'] = self.request.GET.get('q', '')
+        return context
+
     def get_queryset(self):
         ean = self.request.GET.get('ean', None)
         if ean:
             return Product.objects.filter(ean__contains=[ean])
-        q = self.request.GET.get('q', None)
+        q = self.request.GET.get('q', '')
+        shop_id = self.request.GET.get('shop', '')
+        category_id = self.request.GET.get('category', '')
+
+        if shop_id and category_id:
+            return Product.objects.filter(Q(product_name__icontains=q) | Q(brand_id__brand_name__icontains=q),
+                                          shop_id=shop_id, category_id=category_id)
+        elif shop_id:
+            return Product.objects.filter(Q(product_name__icontains=q) | Q(brand_id__brand_name__icontains=q),
+                                          shop_id=shop_id, )
         return Product.objects.filter(Q(product_name__icontains=q) | Q(brand_id__brand_name__icontains=q))
 
 
