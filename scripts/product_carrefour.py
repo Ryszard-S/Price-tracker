@@ -30,7 +30,7 @@ user_agent = os.environ.get('User-Agent')
 X_SESSION = requests.get("https://www.carrefour.pl/", headers={"User-Agent": user_agent}).cookies['SESSION']
 print(X_SESSION)
 
-logging.basicConfig(filename='app.log', level=logging.DEBUG, format='%(asctime)s\t%(levelname)s\t%(message)s')
+logging.basicConfig(filename='../app.log', level=logging.DEBUG, format='%(asctime)s\t%(levelname)s\t%(message)s')
 
 
 def get_categories():
@@ -45,7 +45,7 @@ def get_categories():
         y = x.lstrip('/')
         arr.append(y)
 
-    with open('cat_carrefour.txt', 'w') as f:
+    with open('../cat_carrefour.txt', 'w') as f:
         for i in arr:
             f.write(i + '\n')
 
@@ -55,13 +55,6 @@ def add_carrefour_products():
         'https://www.carrefour.pl/web/catalog?available=true&page=0',
         headers={"X-Session": X_SESSION, "User-Agent": user_agent})
     jar = req.cookies
-    print(req, jar)
-    # if get_page_end.status_code == 200:
-    #     page_end = get_page_end.json()['totalPages']
-    # else:
-    #     page_end = 0
-    # print(page_end)
-    # pages = range(0, page_end)
 
     categories = Category.objects.filter(shop_id=shop)
     for category in categories:
@@ -69,7 +62,7 @@ def add_carrefour_products():
 
         req = requests.get(
             f'https://www.carrefour.pl/web/catalog?available=true&categorySlugs={category.category_name}&resolveBrands=true&page=0',
-            headers={"X-Session": X_SESSION, "User-Agent": user_agent})
+            headers={"X-Session": X_SESSION, "User-Agent": user_agent}, cookies=jar)
 
         if req.status_code == 200:
             page_end = req.json()['totalPages']
@@ -100,14 +93,6 @@ def add_carrefour_products():
                 photo_name = item.get('defaultImage').get('name')
                 photo_url = 'https://www.carrefour.pl/images/product/180x180/' + photo_name
 
-                # try:
-                #     category_id = item['defaultCategoryId']
-                #     category = Category.objects.get(shop_category_id=category_id, shop_id=shop)
-                # except ObjectDoesNotExist:
-                #     category_name = item['defaultCategoryName']
-                #     category = Category.objects.create(shop_category_id=category_id, category_name=category_name,
-                #                                        shop_id=shop)
-
                 brand_id, brand_created = ProductBrand.objects.get_or_create(shop_id=shop, brand_name=brand_name)
 
                 print('brand created: ', brand_created, brand_id)
@@ -119,6 +104,7 @@ def add_carrefour_products():
                     product.save()
                 except MultipleObjectsReturned:
                     logging.warning(f'MULTIPLE product_id: {product_id}')
+                    continue
 
                 promo = item['actualSku']['promotion']
                 if promo:

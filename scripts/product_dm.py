@@ -15,7 +15,7 @@ from prices.models import *
 
 shop = Shop.objects.get(name='DM')
 
-logging.basicConfig(filename='app.log', level=logging.DEBUG, format='%(asctime)s\t%(levelname)s\t%(message)s')
+logging.basicConfig(filename='../app.log', level=logging.DEBUG, format='%(asctime)s\t%(levelname)s\t%(message)s')
 
 
 def add_dm_products():
