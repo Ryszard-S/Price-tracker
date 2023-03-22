@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Ryszard-S/rossmannPrices#readme",
   "devDependencies": {
+    "prettier": "^2.8.5",
     "prettier-plugin-tailwindcss": "^0.1.13"
   }
 }
