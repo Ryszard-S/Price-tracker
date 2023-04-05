@@ -31,9 +31,11 @@ def get_brands(request):
     category_id = request.GET.get('category_id')
     data = []
     brands = Product.objects.filter(category_id=category_id).distinct('brand_id')
+    # print(brands)
     for brand in brands:
-        # print(brand.brand_id.brand_name)
-        data.append({'id': brand.pk, 'brandName': brand.brand_id.brand_name})
+        print(brand.brand_id.brand_name)
+        data.append({'id': brand.brand_id.pk, 'brandName': brand.brand_id.brand_name})
+    print(data)
     return JsonResponse(data, safe=False)
 
 
@@ -56,8 +58,12 @@ class SearchListView(ListView):
         q = self.request.GET.get('q', '')
         shop_id = self.request.GET.get('shop', '')
         category_id = self.request.GET.get('category', '')
+        brand_id = self.request.GET.get('brand', '')
 
-        if shop_id and category_id:
+        if shop_id and category_id and brand_id:
+            return Product.objects.filter(Q(product_name__icontains=q) | Q(brand_id__brand_name__icontains=q),
+                                          shop_id=shop_id, category_id=category_id, brand_id=brand_id)
+        elif shop_id and category_id:
             return Product.objects.filter(Q(product_name__icontains=q) | Q(brand_id__brand_name__icontains=q),
                                           shop_id=shop_id, category_id=category_id)
         elif shop_id:

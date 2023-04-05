@@ -15,7 +15,20 @@ from prices.models import *
 
 shop = Shop.objects.get(name='DM')
 
-logging.basicConfig(filename='../app.log', level=logging.DEBUG, format='%(asctime)s\t%(levelname)s\t%(message)s')
+logging.basicConfig(filename='../app_DM.log', level=logging.DEBUG, format='%(asctime)s\t%(levelname)s\t%(message)s')
+
+
+def _get_json(url):
+    req = requests.get(url)
+    if req.status_code == 200:
+        return req.json()
+    else:
+        print("sleep 10", url)
+        sleep(10)
+        return _get_json(url)
+
+
+BASE_URL = "https://product-search.services.dmtech.com/pl/search/crawl?allCategories.id={cat_id}&sort=editorial_relevance&type=search-static&pageSize=100&currentPage={current_page}"
 
 
 def add_dm_products():
@@ -35,36 +48,15 @@ def add_dm_products():
         print(category.category_name)
         cat_id = cat.get(category.category_name)
 
-        req = requests.get(
-            f'https://product-search.services.dmtech.com/pl/search/crawl?allCategories.id={cat_id}&sort=editorial_relevance&type=search-static&pageSize=100&currentPage=0')
-
-        if req.status_code == 200:
-            page_end = req.json()['totalPages']
-        else:
-            page_end = 0
+        req = _get_json(BASE_URL.format(cat_id=cat_id, current_page=0))
+        page_end = req['totalPages']
         print(page_end)
-        pages = range(0, page_end)
 
-        for page in pages:
-            req = requests.get(
-                f'https://product-search.services.dmtech.com/pl/search/crawl?allCategories.id={cat_id}&sort=editorial_relevance&type=search-static&pageSize=100&currentPage={page}')
-            print('headers: ', req.headers)
-
-            print('page: ', page, 'status code: ', req.status_code)
-            if req.status_code == 429:
-                for i in range(0, 60):
-
-                    if i % 5 == 0:
-                        print('sleep: ', i)
-                    sleep(1)
-
-                req = requests.get(
-                    f'https://product-search.services.dmtech.com/pl/search/crawl?allCategories.id={cat_id}&sort=editorial_relevance&type=search-static&pageSize=100&currentPage={page}')
-                print('after sleep page: ', page, 'status code: ', req.status_code)
-            items = req.json()['products']
+        for page in range(0, page_end):
+            req = _get_json(BASE_URL.format(cat_id=cat_id, current_page=page))
+            items = req['products']
 
             for item in items:
-
                 brand_name = item.get('brandName', 'DM')
                 product_name = item.get('title')
                 product_id = item.get('dan')
@@ -90,8 +82,6 @@ def add_dm_products():
                 else:
                     price = item.get('price').get('value')
                     price_promo = None
-
-                print("price: ", price, "Promo price: ", price_promo)
 
                 Price.objects.create(product_id=product, price=price, price_promo=price_promo)
 
