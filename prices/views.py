@@ -11,9 +11,7 @@ class HomeListView(ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
-        x = Product.objects.order_by('?')[:10]
-        # print(x.query)
-        return x
+        return Product.objects.order_by('?')[:10]
 
 
 def barcode(request):
