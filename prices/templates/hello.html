@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %}
-{% block title %}
+{% block script %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
       integrity="sha256-5uKiXEwbaQh9cgd2/5Vp6WmMnsUr3VZZw0a8rKnOKNU=" crossorigin="anonymous">
 {% endblock %}
@@ -38,10 +38,11 @@
                         <a href="{% url 'product' product.pk %}">
                             {% if product.photo_url %}
                             <img loading="lazy" class="mx-auto aspect-square h-1/2 object-contain"
-                                 src="https:{{ product.photo_url }}"/>
+                                 src="https:{{ product.photo_url }}" alt="product photo"/>
                             {% else %}
                             <img class="mx-auto aspect-square h-1/2 object-contain"
-                                 src="https://cdn.jsdelivr.net/npm/openmoji@14.0.0/color/svg/E142.svg"/>
+                                 src="https://cdn.jsdelivr.net/npm/openmoji@14.0.0/color/svg/E142.svg"
+                                 alt="default product photo"/>
                             {% endif %}
 
                             <div class="pt-6">
@@ -96,24 +97,8 @@
             perPage: 4,
         },
     },
-    autoplay: 'play',
-}).mount();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    autoplay: 'play'
+}).mount()
 
 </script>
 

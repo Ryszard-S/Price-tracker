@@ -8,6 +8,9 @@
     {% block title %}
     <title>Best Price Tracker - Track Prices on Your Favorite Products</title>
     {% endblock %}
+    {% block script %}
+    {% endblock %}
+
     <meta name="description"
           content="Track prices on your favorite products with our easy-to-use price tracker. Get the best deals and never overpay again. Try it now!"/>
     <link rel="stylesheet" href="{% static 'styles/style.css' %}"/>
@@ -15,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@1,700&display=swap" rel="stylesheet">
     <link rel="icon" href="{% static 'favicon/star.gif' %}" type="image/gif"/>
+    <meta name="google-site-verification" content="xeWs1iYMjY1BGAqkV7IQr2BgWsMkNzmbKQthW1XgTXQ"/>
 </head>
 <body class="relative min-h-screen bg-beige text-graphite">
 {% include 'navbar.html' %}
