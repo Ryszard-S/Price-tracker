@@ -1,17 +1,19 @@
-import json
-
 from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
-from django.core import serializers
-from django.http import JsonResponse, HttpResponse
-
-from prices.models import Product, Shop, Category, ProductBrand
+from django.http import JsonResponse
+from prices.models import Product, Shop, Category
 
 
-# Create your views here.
-def home(request):
-    return render(request, 'hello.html')
+class HomeListView(ListView):
+    model = Product
+    template_name = 'hello.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        x = Product.objects.order_by('?')[:10]
+        # print(x.query)
+        return x
 
 
 def barcode(request):
@@ -48,7 +50,6 @@ class SearchListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['shops'] = Shop.objects.all()
-        # context['query'] = self.request.GET.get('q', '')
         return context
 
     def get_queryset(self):

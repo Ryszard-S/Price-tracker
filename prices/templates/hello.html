@@ -1,4 +1,9 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %}
+{% block title %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
+      integrity="sha256-5uKiXEwbaQh9cgd2/5Vp6WmMnsUr3VZZw0a8rKnOKNU=" crossorigin="anonymous">
+{% endblock %}
+{% block content %}
 
 <div class="">
     <p class="text-xl">
@@ -8,12 +13,108 @@
 </div>
 <div class="mt-10 flex justify-center">
     <a href="/barcode" class="">
-        <button class="rounded-full mx-auto bg-red text-beige p-2 hover:opacity-90"> Scan barcode</button>
+        <button class="font-['Lobster_Two'] rounded-full mx-auto bg-red text-beige p-2 hover:opacity-90">
+            Scan barcode
+        </button>
     </a>
 </div>
+<div class="relative py-4">
+    <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-b border-graphite"></div>
+    </div>
+    <div class="relative flex justify-center">
+        <span class="bg-beige px-4 text-sm text-graphite">Recommended products</span>
+    </div>
+</div>
+
+<section class="splide" aria-label="Splide Basic HTML Example">
+    <div class="splide__track">
+        <ul class="splide__list">
+            {% for product in products %}
+            <li class="splide__slide">
+                <div class="flex justify-center h-full ">
+                    <div
+                            class="block max-w-sm p-1 rounded-lg shadow-lg w-full m-2 border border-graphite hover:border-red hover:border-2 bg-white">
+                        <a href="{% url 'product' product.pk %}">
+                            {% if product.photo_url %}
+                            <img loading="lazy" class="mx-auto aspect-square h-1/2 object-contain"
+                                 src="https:{{ product.photo_url }}"/>
+                            {% else %}
+                            <img class="mx-auto aspect-square h-1/2 object-contain"
+                                 src="https://cdn.jsdelivr.net/npm/openmoji@14.0.0/color/svg/E142.svg"/>
+                            {% endif %}
+
+                            <div class="pt-6">
+                                <h5
+                                        class="mb-2 text-xl font-medium leading-tight text-neutral-800">
+                                    {{ product.brand_id.brand_name }}
+                                </h5>
+                                <p class="mb-4 text-base text-neutral-600">
+                                    {{ product.product_name }}
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <button class="splide__toggle" type="button">
+        <span class="splide__toggle__play">Play</span>
+        <span class="splide__toggle__pause">Pause</span>
+    </button>
+    <div class="splide__progress">
+        <div class="splide__progress__bar">
+        </div>
+    </div>
+</section>
 
 <div class="absolute bottom-8 right-0 -z-10">
     <img alt="" class="h-36" src="{% static 'icons/614311.png' %}"/>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"
+        integrity="sha256-FZsW7H2V5X9TGinSjjwYJ419Xka27I8XPDmWryGlWtw=" crossorigin="anonymous"></script>
+
+<script>
+    new Splide('.splide', {
+    height: '24rem',
+    type: 'loop',
+    perPage: 5,
+    breakpoints: {
+        359: {
+            perPage: 1,
+        },
+        640: {
+            perPage: 2,
+        },
+        768: {
+            perPage: 3,
+        },
+        1024: {
+            perPage: 4,
+        },
+    },
+    autoplay: 'play',
+}).mount();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
 
 {% endblock %}
