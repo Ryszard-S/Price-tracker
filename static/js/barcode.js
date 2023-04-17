@@ -8,6 +8,6 @@ function onScanFailure(error) {
 
 let html5QrcodeScanner = new Html5QrcodeScanner('qr-reader', {
     fps: 10,
-    qrbox: { width: 250, height: 100 },
+    qrbox: { width: 220, height: 100 },
 })
 html5QrcodeScanner.render(onScanSuccess, onScanFailure)

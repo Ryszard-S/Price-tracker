@@ -10,7 +10,16 @@ Pricetracker is a tool for tracking prices of products in online stores. It allo
 - Displaying product’s price history
 - scanning barcode for fast product search
 
+![barcode example](images/barcode_example.gif)
 
+## Technologies used:
+ - Python
+ - Django
+ - Tailwind CSS
+ - PostgreSQL
+ - [Barcodescanner lib](https://github.com/mebjas/html5-qrcode)
+ - [Chart.js lib](https://github.com/chartjs/Chart.js)
+ - [Splide lib](https://github.com/Splidejs/splide)
  
 ## Installation dev
 
