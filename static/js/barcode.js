@@ -1,5 +1,5 @@
 function onScanSuccess(decodedText, decodedResult) {
-    window.location.href = `/search/?ean=${decodedText}`
+    window.location.href = `/search?ean=${decodedText}`
 }
 
 function onScanFailure(error) {
