@@ -48,7 +48,7 @@ class Price(models.Model):
     class Meta:
         ordering = ['date', 'id']
 
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='prices')
     price = models.FloatField()
     price_promo = models.FloatField(null=True, blank=True)
     date = models.DateField(auto_now_add=True)

@@ -32,7 +32,7 @@ print("DEBUG: ", DEBUG)
 
 ALLOWED_HOSTS = ['price-tracker-76kz.onrender.com', ]
 if DEBUG:
-    ALLOWED_HOSTS += ['127.0.0.1']
+    ALLOWED_HOSTS += ['127.0.0.1', ]
 
 # Application definition
 
@@ -43,8 +43,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'prices'
+    'prices',
+    'api',
+    'rest_framework',
 ]
+
+if DEBUG:
+    INSTALLED_APPS += [
+        "sslserver",
+        "debug_toolbar",
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,6 +64,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE += [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ]
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]
 
 ROOT_URLCONF = 'pricetracker.urls'
 
@@ -129,3 +145,8 @@ else:
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
+}

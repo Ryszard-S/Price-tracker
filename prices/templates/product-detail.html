@@ -24,7 +24,7 @@
         </thead>
 
         <tbody>
-        {% for price in product.price_set.all %}
+        {% for price in product.prices.all %}
         <tr class="border-b border-dotted border-graphite last:border-none">
             <td class="text-center">{{ price.date | date }}</td>
             <td class="text-center">{{ price.price }}</td>
@@ -44,10 +44,10 @@
           var myChart = new Chart(ctx, {
               type: 'line',
               data: {
-                  labels: [{% for price in product.price_set.all %}'{{price.date}}',{% endfor %}], //loop through queryset,
+                  labels: [{% for price in product.prices.all %}'{{price.date}}',{% endfor %}], //loop through queryset,
                   datasets: [{
                       label: 'price',
-                      data: [{% for price in product.price_set.all %}'{{price.price}}',{% endfor %}],
+                      data: [{% for price in product.prices.all %}'{{price.price}}',{% endfor %}],
                       backgroundColor: [
                           'rgba(255, 99, 132, 0.2)',
                       ],
@@ -58,7 +58,7 @@
                   },
                   {
                       label: 'price_promo',
-                      data: [{% for price in product.price_set.all %}
+                      data: [{% for price in product.prices.all %}
                       {% if price.price_promo %}
                       '{{price.price_promo}}',
                       {% else %}
@@ -75,6 +75,8 @@
                   }]
               },
   })
+
+
 
 </script>
 

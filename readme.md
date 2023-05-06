@@ -26,7 +26,6 @@ Pricetracker is a tool for tracking prices of products in online stores. It allo
 
 1. Clone repo
 2. set '.env' file, example is availbe in '.env.example'
-
 3. Install dependencies
 
 ```bash
@@ -55,13 +54,13 @@ python manage.py runserver
 python manage.py runsslserver 0.0.0.0:8000
 ```
 
-6. install js dependencies
+7. install js dependencies
 
 ```bash
 npm install
 ```
 
-7. watch css files for changes
+8. watch css files for changes
 
 ```bash
 npm run tailwind
