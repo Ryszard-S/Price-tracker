@@ -1,5 +1,3 @@
-import time
-
 from django.db.models import Q
 from rest_framework import generics
 from rest_framework.response import Response
@@ -27,7 +25,6 @@ class ProductsListView(generics.ListAPIView):
     serializer_class = ProductWithoutPricesSerializer
 
     def get_queryset(self):
-        time.sleep(3)
         search = self.request.GET.get('search')
         ean = self.request.GET.get('ean')
         if ean:
@@ -41,7 +38,6 @@ class ProductDetailView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        time.sleep(3)
         product_id = self.kwargs.get('pk')
         print(product_id)
         qs = Product.objects.filter(pk=product_id)
