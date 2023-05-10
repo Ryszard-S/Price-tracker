@@ -2,9 +2,20 @@ import time
 
 from django.db.models import Q
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from api.serializers import ShopSerializer, ProductSerializer, ProductWithoutPricesSerializer
 from prices.models import Shop, Product
+
+
+class PingView(APIView):
+    """
+    Ping a service to wake up
+    """
+
+    def get(self, request):
+        return Response({"message": "ok"})
 
 
 class ShopListView(generics.ListAPIView):
