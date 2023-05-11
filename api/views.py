@@ -28,9 +28,10 @@ class ProductsListView(generics.ListAPIView):
         search = self.request.GET.get('search')
         ean = self.request.GET.get('ean')
         if ean:
-            return Product.objects.filter(ean__contains=[ean])
+            return Product.objects.select_related('shop_id', 'category_id', 'brand_id').filter(ean__contains=[ean])
         if search:
-            return Product.objects.filter(Q(product_name__icontains=search) | Q(brand_id__brand_name__icontains=search))
+            return Product.objects.select_related('shop_id', 'category_id', 'brand_id').filter(
+                Q(product_name__icontains=search) | Q(brand_id__brand_name__icontains=search)).order_by('pk')
         return Product.objects.all()
 
 
