@@ -31,8 +31,9 @@ DEBUG = bool(int(os.environ.get('DEBUG')))
 print("DEBUG: ", DEBUG)
 
 ALLOWED_HOSTS = ['price-tracker-76kz.onrender.com', ]
+ALLOWED_HOSTS = ['*', ]
 if DEBUG:
-    ALLOWED_HOSTS += ['127.0.0.1', ]
+    ALLOWED_HOSTS += ['127.0.0.1', '192.168.0.4']
 
 # Application definition
 
