@@ -100,7 +100,7 @@ def add_rossmann_products():
         'totalPages']
 
     print(page_end, page_end + 1)
-    pages = range(1, page_end + 1)
+    pages = range(0, page_end + 1)
     for page in pages:
         req = requests.get(f'https://www.rossmann.pl/marketing/api/Catalog?Page={page}&PageSize=100&SortOrder=priceAsc')
         items = req.json()['data']['items']
@@ -126,11 +126,13 @@ def add_rossmann_products():
                 brand_id = ProductBrand.objects.create(shop_id=shop, shop_product_brand_id=i['brandId'],
                                                        brand_name=i['brand'])
 
-            product_name = i['caption'] + " " + i.get('name', '')
+            product_name = i.get('caption', '') + " " + i.get('name', '')
             shop_product_id = i['id']
             ean = i.get('eanNumber', None)
-            photo_url = i.get('pictures', None)[0].get('medium', None)
-
+            try:
+                photo_url = i.get('pictures', None)[0].get('medium', None)
+            except IndexError:
+                photo_url = None
             try:
                 product = Product.objects.get(shop_product_id=shop_product_id, shop_id=shop_id)
             except ObjectDoesNotExist:
